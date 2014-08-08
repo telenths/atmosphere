@@ -2,29 +2,21 @@ package com.elvin.atmosphere;
 
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 public class ColorPicker {
 
     private Robot robot;
 
     public static void main(String[] args) throws AWTException, InterruptedException {
-        
-        Dimension scrSize=Toolkit.getDefaultToolkit().getScreenSize();
-                
         ColorPicker cp = new ColorPicker();
         Thread.currentThread().sleep(2000L);
-        cp.pickColor(55, 30, 5);
+        Color colour = cp.pickColor(55, 30, 5);
+        System.out.println(colour);
     }
     
     public ColorPicker() throws AWTException {
@@ -32,15 +24,20 @@ public class ColorPicker {
     }
 
     public Color pickColor(int x, int y, int delta) {
-
         Rectangle rec = new Rectangle(x - delta, y - delta, delta * 2, delta * 2);
+        return pickColor(rec);
+    }
 
+    public Color pickColor(Rectangle rec) {
+        
         BufferedImage image = robot.createScreenCapture(rec);
-        try {
-            ImageIO.write(image, "jpeg", new File("a.jpeg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            long t = System.currentTimeMillis();
+//            System.out.println(rec + " - " + t);
+//            ImageIO.write(image, "jpeg", new File("a"+ t +".jpeg"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         int height = image.getHeight();
         int width = image.getWidth();
@@ -60,8 +57,6 @@ public class ColorPicker {
         }
         
         Color colour = getMostCommonColour(mapRgb2Count);
-
-        System.out.println(colour);
         return colour;
     }
 
@@ -82,9 +77,13 @@ public class ColorPicker {
             }
         }
         
+        if(maxEntry == null){
+            return Color.GRAY;
+        }
+        
         int[] rgb = getRGBArr((Integer) maxEntry.getKey());
         
-        System.out.println(Integer.toHexString(rgb[0]) +  Integer.toHexString(rgb[1]) +  Integer.toHexString(rgb[2]));
+        System.out.println("Hex - "+Integer.toHexString(rgb[0]) +  Integer.toHexString(rgb[1]) +  Integer.toHexString(rgb[2]));
         return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
     }
 
@@ -97,6 +96,9 @@ public class ColorPicker {
     }
 
     public static boolean isGray(int[] rgbArr) {
+        
+//        System.out.println(rgbArr[0] + " - " + rgbArr[1] + " - " + rgbArr[2] );
+        
         int rgDiff = rgbArr[0] - rgbArr[1];
         int rbDiff = rgbArr[0] - rgbArr[2];
         // Filter out black, white and grays...... (tolerance within 10 pixels)
