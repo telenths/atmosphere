@@ -1,7 +1,6 @@
-package com.elvin.atmosphere;
+package com.elvin.atmosphere.core;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BorderColor {
@@ -12,30 +11,41 @@ public class BorderColor {
     private List<Color> right;
     
     public List<Color> getTop() {
-        if(top == null)
-            top = new ArrayList<Color>();
         return top;
     }
+
+    public void setTop(List<Color> top) {
+        this.top = top;
+    }
+
     public List<Color> getBottom() {
-        if(bottom == null)
-            bottom = new ArrayList<Color>();
         return bottom;
     }
+
+    public void setBottom(List<Color> bottom) {
+        this.bottom = bottom;
+    }
+
     public List<Color> getLeft() {
-        if(left == null)
-            left = new ArrayList<Color>();
         return left;
     }
+
+    public void setLeft(List<Color> left) {
+        this.left = left;
+    }
+
     public List<Color> getRight() {
-        if(right == null)
-            right = new ArrayList<Color>();
         return right;
     }
-    
+
+    public void setRight(List<Color> right) {
+        this.right = right;
+    }
+
     public String toHtml(){
         StringBuilder sb = new StringBuilder();
         
-        int borderSize = 30;
+        int borderSize = 50;
         int i = 0 ; 
         for(Color color : top){
             sb.append(getDiv(0, i * borderSize, borderSize, getHex(color), "T"+i));
@@ -57,14 +67,23 @@ public class BorderColor {
         i = 0;
         for(Color color : right){
             i++;
-            sb.append(getDiv(i * borderSize, top.size() * borderSize, borderSize, getHex(color),"R"+(i-1)));
+            sb.append(getDiv(i * borderSize, (top.size() - 1 == 0 ? 1 : (top.size() - 1)) * borderSize, borderSize, getHex(color),"R"+(i-1)));
         }
 
         return sb.toString();
     }
     
     private String getHex(Color color){
-        return Integer.toHexString(color.getRed()) +  Integer.toHexString(color.getGreen()) +  Integer.toHexString(color.getBlue());
+        String red = Integer.toHexString(color.getRed());
+        red = red.length() <= 1 ? "0"+red : red;
+        
+        String green = Integer.toHexString(color.getGreen());
+        green = green.length() <= 1 ? "0"+green : green;
+        
+        String blue = Integer.toHexString(color.getBlue());
+        blue = blue.length() <= 1 ? "0"+blue : blue;
+        
+        return red + green + blue;
     }
     
     private String getDiv(int top, int left, int borderSize, String color, String t) {
