@@ -9,6 +9,9 @@ import com.elvin.atmosphere.common.Utils;
 
 public class BorderDimension {
     
+    private int originalX;
+    private int originalY;
+    
     private int adjustX;
     private int adjustY;
     
@@ -20,6 +23,8 @@ public class BorderDimension {
     
     public BorderDimension(Rectangle originRectangle){
         this.originRectangle = originRectangle;
+        this.originalX = originRectangle.x;
+        this.originalY = originRectangle.y;
     }
     
     private void split(){
@@ -40,14 +45,8 @@ public class BorderDimension {
         if(originRectangle == null){
             return;
         }
-        if(adjustX == 0 && adjustY == 0){
-            return;
-        }
 
-        int x = originRectangle.x;
-        int y = originRectangle.y;
-
-        originRectangle.setLocation(x + adjustX, y + adjustY);
+        originRectangle.setLocation(originalX + adjustX, originalY + adjustY);
         
         split();
     }

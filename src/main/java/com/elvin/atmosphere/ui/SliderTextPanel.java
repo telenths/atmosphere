@@ -35,7 +35,7 @@ public class SliderTextPanel extends JPanel {
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 text.setText(slider.getValue() + "");
-                valudChanged();
+                valudChanged(slider.getValue());
             }
         });
         text.getDocument().addDocumentListener(new DocumentListener() {
@@ -58,7 +58,7 @@ public class SliderTextPanel extends JPanel {
                     }
                 }catch(Exception e){
                 }
-                valudChanged();
+                valudChanged(slider.getValue());
             }
         });
         
@@ -72,9 +72,9 @@ public class SliderTextPanel extends JPanel {
         
     }
     
-    private void valudChanged(){
+    private void valudChanged(int value){
         for(SliderValueChangedAction a : sliderValueChangedAcitons){
-            a.SliderValueChanged();
+            a.sliderValueChanged(value);
         }
     }
     
@@ -92,5 +92,5 @@ public class SliderTextPanel extends JPanel {
 }
 
 interface SliderValueChangedAction {
-    public void SliderValueChanged();
+    public void sliderValueChanged(int value);
 }

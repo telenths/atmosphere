@@ -28,31 +28,34 @@ public class Atmosphere {
      * 
      */
     public void init(int vHeight, int hWidth, int tbSplit, int lrSplit, int topAdjust, int bottomAdjust, int leftAdjust, int rightAdjust) {
-        Dimension screenSize = Utils.getScreenDimension();
 
-        double height = vHeight;
-        double width = hWidth;
-
-        Rectangle top = new Rectangle(  0, 0,                                screenSize.width, (int) height);
-        Rectangle botom = new Rectangle(0, screenSize.height - (int) height, screenSize.width, (int) height);
-        Rectangle left = new Rectangle( 0,                              (int) height, (int) width, screenSize.height - 2 * (int) height);
-        Rectangle right = new Rectangle(screenSize.width - (int) width, (int) height, (int) width, screenSize.height - 2 * (int) height);
-
-        topDimension = new BorderDimension(top);
+        refreshDimensions(vHeight, hWidth);
+        
         topDimension.setSplitH(tbSplit);
         topDimension.setAdjustY(topAdjust);
         
-        bottomDimension = new BorderDimension(botom);
         bottomDimension.setSplitH(tbSplit);
         bottomDimension.setAdjustY(-bottomAdjust);
         
-        leftDimension = new BorderDimension(left);
         leftDimension.setSplitV(lrSplit);
         leftDimension.setAdjustX(leftAdjust);
         
-        rightDimension = new BorderDimension(right);
         rightDimension.setSplitV(lrSplit);
         rightDimension.setAdjustX(-rightAdjust);
+    }
+
+    public void refreshDimensions(int height, int width) {
+        Dimension screenSize = Utils.getScreenDimension();
+        
+        Rectangle top = new Rectangle(  0, 0,                          screenSize.width,  height);
+        Rectangle botom = new Rectangle(0, screenSize.height - height, screenSize.width,  height);
+        Rectangle left = new Rectangle( 0,                         height,  width, screenSize.height - 2 *  height);
+        Rectangle right = new Rectangle(screenSize.width - width,  height,  width, screenSize.height - 2 *  height);
+
+        topDimension = new BorderDimension(top);
+        bottomDimension = new BorderDimension(botom);
+        leftDimension = new BorderDimension(left);
+        rightDimension = new BorderDimension(right);
     }
     
     public BorderColor getColors(){

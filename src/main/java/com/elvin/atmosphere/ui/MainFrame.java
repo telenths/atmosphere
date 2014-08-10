@@ -26,8 +26,14 @@ public class MainFrame extends AbstractMainFrame {
         mf.init();
         mf.setVisible(true);
     }
-    
-    public MainFrame(){
+
+    @Override
+    protected void onOffButtonClicked(ActionEvent e) {
+        this.onOffButton.setText( this.onOffButton.isSelected() ? "ON" : "OFF");
+        if(!onOffButton.isSelected() && workingThread != null){
+            workingThread.stop();
+            return;
+        }
 
         int vHeight = tbHeight.getValue();
         int hWidth = lrWidth.getValue();
@@ -39,16 +45,6 @@ public class MainFrame extends AbstractMainFrame {
         int rightAdjust = rAdjust.getValue();
         
         workingThread = new WorkingThread(vHeight, hWidth, tbCut, lrCut, topAdjust, bottomAdjust, leftAdjust, rightAdjust);
-    }
-
-    @Override
-    protected void onOffButtonClicked(ActionEvent e) {
-        this.onOffButton.setText( this.onOffButton.isSelected() ? "ON" : "OFF");
-        if(!onOffButton.isSelected() && workingThread != null){
-            workingThread.stop();
-            return;
-        }
-        
         
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             
@@ -99,10 +95,76 @@ public class MainFrame extends AbstractMainFrame {
 
     @Override
     protected void redBoxButtonReleased(MouseEvent e) {
-        top.setVisible(false);
-        bottom.setVisible(false);
-        left.setVisible(false);
-        right.setVisible(false);
+        if(top != null)
+            top.setVisible(false);
+        if(bottom != null)
+            bottom.setVisible(false);
+        if(left != null)
+            left.setVisible(false);
+        if(right != null)
+            right.setVisible(false);
+    }
+
+    @Override
+    protected void intervalSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setInterval(value);
+    }
+
+    @Override
+    protected void rAdjustSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setRightAdjust(value);
+    }
+
+    @Override
+    protected void lAdjustSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setLeftAdjust(value);
+    }
+
+    @Override
+    protected void bAdjustSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setBottomAdjust(value);
+    }
+
+    @Override
+    protected void tAdjustSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setTopAdjust(value);
+        
+    }
+
+    @Override
+    protected void lrSplitSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setLrSplit(value);
+    }
+
+    @Override
+    protected void tbSplitSliderValueChanged(int value) {
+        if(workingThread != null)
+            workingThread.setTbSplit(value);
+        
+    }
+
+    @Override
+    protected void lrWidthSliderValueChanged(int value) {
+        if(workingThread != null){
+            int width = lrWidth.getValue();
+            int height = tbHeight.getValue();
+            workingThread.refreshDimensions(height, width);
+        }
+    }
+
+    @Override
+    protected void tbHeightSliderValueChanged(int value) {
+        if(workingThread != null){
+            int width = lrWidth.getValue();
+            int height = tbHeight.getValue();
+            workingThread.refreshDimensions(height, width);
+        }
     }
     
 }

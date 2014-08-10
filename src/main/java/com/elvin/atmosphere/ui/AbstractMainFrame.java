@@ -41,7 +41,63 @@ public abstract class AbstractMainFrame extends JFrame {
     public void init(){
         
         JPanel top = new JPanel(new SpringLayout());
+        
+        tbHeight.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                tbHeightSliderValueChanged(value);
+            }
+        });
+        
+        lrWidth.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                lrWidthSliderValueChanged(value);
+            }
+        });
+        
 
+        tbSplit.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                tbSplitSliderValueChanged(value);
+            }
+        });
+        
+
+        lrSplit.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                lrSplitSliderValueChanged(value);
+            }
+        });
+        
+        tAdjust.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                tAdjustSliderValueChanged(value);
+            }
+        });
+
+        bAdjust.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                bAdjustSliderValueChanged(value);
+            }
+        });
+        
+        lAdjust.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                lAdjustSliderValueChanged(value);
+            }
+        });
+
+        rAdjust.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                rAdjustSliderValueChanged(value);
+            }
+        });
+        
+        interval.addSliderValueChangedAction(new SliderValueChangedAction() {
+            public void sliderValueChanged(int value) {
+                intervalSliderValueChanged(value);
+            }
+        });
+        
         addLabel(top, "T.B.Height");
         top.add(tbHeight);
         addLabel(top, "L.R.Width");
@@ -97,7 +153,7 @@ public abstract class AbstractMainFrame extends JFrame {
         this.pack();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-    
+
     private void addLabel(JPanel container, String text){
         JLabel jlabel = new JLabel(text);
         jlabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -109,6 +165,24 @@ public abstract class AbstractMainFrame extends JFrame {
     protected abstract void redBoxButtonPressed(MouseEvent e);
 
     protected abstract void redBoxButtonReleased(MouseEvent e);
+    
+    protected abstract void intervalSliderValueChanged(int value) ;
+
+    protected abstract void rAdjustSliderValueChanged(int value);
+
+    protected abstract void lAdjustSliderValueChanged(int value) ;
+
+    protected abstract void bAdjustSliderValueChanged(int value) ;
+
+    protected abstract void tAdjustSliderValueChanged(int value) ;
+
+    protected abstract void lrSplitSliderValueChanged(int value) ;
+
+    protected abstract void tbSplitSliderValueChanged(int value) ;
+
+    protected abstract void lrWidthSliderValueChanged(int value) ;
+
+    protected abstract void tbHeightSliderValueChanged(int value) ;
 }
 
 
