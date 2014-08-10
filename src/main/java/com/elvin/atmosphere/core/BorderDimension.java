@@ -79,5 +79,9 @@ public class BorderDimension {
         }
         return colors;
     }
+
+    public Rectangle getOriginRectangle() {
+        return originRectangle;
+    }
     
 }

@@ -37,12 +37,12 @@ public class ColorPicker {
     public static Color pickColor(Rectangle rec) {
         
         BufferedImage image = robot.createScreenCapture(rec);
-        try {
-            long t = System.currentTimeMillis();
-            ImageIO.write(image, "jpeg", new File("a"+ t +".jpeg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            long t = System.currentTimeMillis();
+//            ImageIO.write(image, "jpeg", new File("a"+ t +".jpeg"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         Color color = getAverageColor1(image);
         

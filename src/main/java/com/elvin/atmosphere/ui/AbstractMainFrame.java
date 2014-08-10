@@ -3,7 +3,10 @@ package com.elvin.atmosphere.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,9 +29,14 @@ public abstract class AbstractMainFrame extends JFrame {
     protected SliderTextPanel bAdjust = new SliderTextPanel( Utils.getScreenDimension().height / 2, 0);
     protected SliderTextPanel lAdjust = new SliderTextPanel( Utils.getScreenDimension().width / 2, 0);
     protected SliderTextPanel rAdjust = new SliderTextPanel( Utils.getScreenDimension().width / 2, 0);
+
+    protected SliderTextPanel interval = new SliderTextPanel( 1000 * 2, 200);
     
     protected JTextField targetIp = new JTextField(15);
     protected JToggleButton onOffButton = new JToggleButton(); 
+    protected JButton redBoxButton = new JButton("RedBox");
+    
+    protected ColorDemoPanel colorDemoPanel = new ColorDemoPanel();
     
     public void init(){
         
@@ -52,8 +60,10 @@ public abstract class AbstractMainFrame extends JFrame {
         top.add(lAdjust);
         addLabel(top, "R.Adjust");
         top.add(rAdjust);
-        
-        SpringUtilities.makeCompactGrid(top, 8, 2, 5, 5, 5, 5);
+
+        addLabel(top, "Interval (ms)");
+        top.add(interval);
+        SpringUtilities.makeCompactGrid(top, 9, 2, 5, 5, 5, 5);
     
         onOffButton.setText("OFF");
         onOffButton.addActionListener(new ActionListener() {
@@ -63,18 +73,28 @@ public abstract class AbstractMainFrame extends JFrame {
             }
         });
         
+        redBoxButton.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                redBoxButtonReleased(e);
+            }
+            public void mousePressed(MouseEvent e) {
+                redBoxButtonPressed(e);      
+            }
+        });
+        
+        
         JPanel bottom = new JPanel(new SpringLayout());
         bottom.add(targetIp);
         bottom.add(onOffButton);
+        bottom.add(redBoxButton);
         
-        SpringUtilities.makeCompactGrid(bottom, 1, 2, 5, 5, 5, 5);
-        
+        SpringUtilities.makeCompactGrid(bottom, 1, bottom.getComponentCount(), 5, 5, 5, 5);
         
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(top, BorderLayout.NORTH);
         this.getContentPane().add(bottom, BorderLayout.SOUTH);
+        this.getContentPane().add(colorDemoPanel, BorderLayout.CENTER);
         this.pack();
-//        this.setSize(200, 200);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
     
@@ -85,5 +105,11 @@ public abstract class AbstractMainFrame extends JFrame {
     }
     
     protected abstract void onOffButtonClicked(ActionEvent e);
-    
+
+    protected abstract void redBoxButtonPressed(MouseEvent e);
+
+    protected abstract void redBoxButtonReleased(MouseEvent e);
 }
+
+
+

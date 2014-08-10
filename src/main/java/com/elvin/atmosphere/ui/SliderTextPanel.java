@@ -1,6 +1,8 @@
 package com.elvin.atmosphere.ui;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -15,6 +17,8 @@ public class SliderTextPanel extends JPanel {
 
     final JSlider slider = new JSlider();
     final JTextField text = new JTextField(4);
+    
+    private List<SliderValueChangedAction> sliderValueChangedAcitons = new ArrayList<SliderValueChangedAction>();
     
     public SliderTextPanel(int max, int defaultValue){
         
@@ -31,6 +35,7 @@ public class SliderTextPanel extends JPanel {
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 text.setText(slider.getValue() + "");
+                valudChanged();
             }
         });
         text.getDocument().addDocumentListener(new DocumentListener() {
@@ -53,6 +58,7 @@ public class SliderTextPanel extends JPanel {
                     }
                 }catch(Exception e){
                 }
+                valudChanged();
             }
         });
         
@@ -66,11 +72,25 @@ public class SliderTextPanel extends JPanel {
         
     }
     
+    private void valudChanged(){
+        for(SliderValueChangedAction a : sliderValueChangedAcitons){
+            a.SliderValueChanged();
+        }
+    }
+    
+    public void addSliderValueChangedAction(SliderValueChangedAction sliderValueChangedAciton){
+        sliderValueChangedAcitons.add(sliderValueChangedAciton);
+    }
+    
     public JSlider getSlider(){
         return slider;
     }
     
-    public int getVlue(){
+    public int getValue(){
         return slider.getValue();
     }
+}
+
+interface SliderValueChangedAction {
+    public void SliderValueChanged();
 }
