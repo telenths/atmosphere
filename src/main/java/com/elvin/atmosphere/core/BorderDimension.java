@@ -47,7 +47,6 @@ public class BorderDimension {
         }
 
         originRectangle.setLocation(originalX + adjustX, originalY + adjustY);
-        
         split();
     }
     

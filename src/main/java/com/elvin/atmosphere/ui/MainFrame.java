@@ -47,9 +47,13 @@ public class MainFrame extends AbstractMainFrame {
         workingThread = new WorkingThread(vHeight, hWidth, tbCut, lrCut, topAdjust, bottomAdjust, leftAdjust, rightAdjust);
         
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
-            
             public void BorderColorRetrieved(BorderColor borderColor) {
                 colorDemoPanel.setBorderColor(borderColor);
+            }
+        });
+        workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
+            public void BorderColorRetrieved(BorderColor borderColor) {
+                //send to raspberry pi
             }
         });
         workingThread.setInterval(interval.getValue());

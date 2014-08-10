@@ -86,12 +86,10 @@ public class Atmosphere {
     }
     public void setLeftAdjust(int adjust){
         leftDimension.setAdjustX(adjust);
-        
     }
     public void setRightAdjust(int adjust){
         rightDimension.setAdjustX(-adjust);
     }
-    
 
     public BorderDimension getTopDimension() {
         return topDimension;
