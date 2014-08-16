@@ -20,7 +20,8 @@ public class SliderTextPanel extends JPanel {
     
     private List<SliderValueChangedAction> sliderValueChangedAcitons = new ArrayList<SliderValueChangedAction>();
     
-    public SliderTextPanel(int max, int defaultValue){
+    public SliderTextPanel(String name, int max, int defaultValue){
+        this.setName(name);
         
         slider.setMaximum(max);
         slider.setPreferredSize(new Dimension(200, 20));
@@ -70,6 +71,10 @@ public class SliderTextPanel extends JPanel {
         
         SpringUtilities.makeCompactGrid(this, 1, 2, 0, 0, 5, 0);
         
+    }
+    
+    public void setValue(int n){
+        slider.setValue(n);
     }
     
     private void valudChanged(int value){

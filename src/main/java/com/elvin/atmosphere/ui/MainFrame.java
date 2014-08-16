@@ -1,29 +1,30 @@
 package com.elvin.atmosphere.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Properties;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JWindow;
-import javax.swing.border.Border;
-
+import com.elvin.atmosphere.common.Utils;
 import com.elvin.atmosphere.core.BorderColor;
 
 public class MainFrame extends AbstractMainFrame {
 
     private WorkingThread workingThread;
-    
-    private RedBoxFrame top ;
-    private RedBoxFrame bottom;
-    private RedBoxFrame left;
-    private RedBoxFrame right;
+    private String propertyFile = "atmosphere.prop";
     
     public static void main(String[] args) {
         AbstractMainFrame mf = new MainFrame();
         mf.init();
+        
+        int x = (Utils.getScreenDimension().width - mf.getWidth()) / 2;
+        int y = (Utils.getScreenDimension().height - mf.getHeight()) / 2 ;
+        mf.setLocation(x, y);
+        
         mf.setVisible(true);
     }
 
@@ -65,48 +66,12 @@ public class MainFrame extends AbstractMainFrame {
         if(workingThread == null){
             return;
         }
-        if(top == null){
-            top = new RedBoxFrame();
-        }
-        if(bottom == null){
-            bottom = new RedBoxFrame();
-        }
-        if(left == null){
-            left = new RedBoxFrame();
-        }
-        if(right == null){
-            right = new RedBoxFrame();
-        }
-        
-        top.setLocation(workingThread.getTopDimension().getOriginRectangle().x, workingThread.getTopDimension().getOriginRectangle().y);
-        top.setSize(workingThread.getTopDimension().getOriginRectangle().width, workingThread.getTopDimension().getOriginRectangle().height);
-
-        bottom.setLocation(workingThread.getBottomDimension().getOriginRectangle().x, workingThread.getBottomDimension().getOriginRectangle().y);
-        bottom.setSize(workingThread.getBottomDimension().getOriginRectangle().width, workingThread.getBottomDimension().getOriginRectangle().height);
-        
-        left.setLocation(workingThread.getLeftDimension().getOriginRectangle().x, workingThread.getLeftDimension().getOriginRectangle().y);
-        left.setSize(workingThread.getLeftDimension().getOriginRectangle().width, workingThread.getLeftDimension().getOriginRectangle().height);
-        
-        right.setLocation(workingThread.getRightDimension().getOriginRectangle().x, workingThread.getRightDimension().getOriginRectangle().y);
-        right.setSize(workingThread.getRightDimension().getOriginRectangle().width, workingThread.getRightDimension().getOriginRectangle().height);
-        
-        top.setVisible(true);
-        bottom.setVisible(true);
-        left.setVisible(true);
-        right.setVisible(true);
-    
+        RedBoxes.getInstance().showWith(workingThread);
     }
 
     @Override
     protected void redBoxButtonReleased(MouseEvent e) {
-        if(top != null)
-            top.setVisible(false);
-        if(bottom != null)
-            bottom.setVisible(false);
-        if(left != null)
-            left.setVisible(false);
-        if(right != null)
-            right.setVisible(false);
+        RedBoxes.getInstance().hideAll();
     }
 
     @Override
@@ -170,22 +135,75 @@ public class MainFrame extends AbstractMainFrame {
             workingThread.refreshDimensions(height, width);
         }
     }
-    
-}
 
-
-class RedBoxFrame extends JWindow {
-    
-    public RedBoxFrame(){
-        this.setOpacity(0.4F);
+    @Override
+    protected void saveSettings() {
         
-        Border border = BorderFactory.createLineBorder(Color.RED);
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.GREEN);
-        panel.setOpaque(false);
-        panel.setBorder(border);
-        this.getContentPane().add(panel, BorderLayout.CENTER);
+        Properties atomProperties = new Properties();
+        atomProperties.put(tbHeight.getName(), Integer.toString(tbHeight.getValue()));
+        atomProperties.put(lrWidth.getName(), Integer.toString(lrWidth.getValue()));
+        atomProperties.put(tbSplit.getName(), Integer.toString(tbSplit.getValue()));
+        atomProperties.put(lrSplit.getName(), Integer.toString(lrSplit.getValue()));
+        atomProperties.put(tAdjust.getName(), Integer.toString(tAdjust.getValue()));
+        atomProperties.put(bAdjust.getName(), Integer.toString(bAdjust.getValue()));
+        atomProperties.put(lAdjust.getName(), Integer.toString(lAdjust.getValue()));
+        atomProperties.put(rAdjust.getName(), Integer.toString(rAdjust.getValue()));
+        atomProperties.put(interval.getName(), Integer.toString(interval.getValue()));
+        atomProperties.put(targetIp.getName(), targetIp.getText());
+        atomProperties.put(targetPort.getName(), targetPort.getText());
+        
+        try {
+            atomProperties.store(new FileWriter(new File(propertyFile)), "");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+
+    @Override
+    protected void loadSettings() {
+        Properties atomProperties = new Properties();
+        try {
+            atomProperties.load(new FileReader(new File(propertyFile)));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        tbHeight.setValue(getIntProperty(atomProperties, tbHeight.getName()));
+        lrWidth.setValue(getIntProperty(atomProperties, lrWidth.getName()));
+        tbSplit.setValue(getIntProperty(atomProperties, tbSplit.getName()));
+        lrSplit.setValue(getIntProperty(atomProperties, lrSplit.getName()));
+        tAdjust.setValue(getIntProperty(atomProperties, tAdjust.getName()));
+        bAdjust.setValue(getIntProperty(atomProperties, bAdjust.getName()));
+        lAdjust.setValue(getIntProperty(atomProperties, lAdjust.getName()));
+        rAdjust.setValue(getIntProperty(atomProperties, rAdjust.getName()));
+        interval.setValue(getIntProperty(atomProperties, interval.getName()));
+
+        targetIp.setText(getStringProperty(atomProperties, targetIp.getName()));
+        targetPort.setText(getStringProperty(atomProperties, targetPort.getName()));
+        
     }
     
+    private int getIntProperty(Properties prop, String key){
+        Object obj = prop.get(key);
+        if(obj == null)
+            return -1;
+        try {
+            return Integer.parseInt((String)obj);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+    
+    private String getStringProperty(Properties prop, String key){
+        Object obj = prop.get(key);
+        if(obj == null)
+            return null;
+        return (String)obj;
+    }
     
 }
+
+
