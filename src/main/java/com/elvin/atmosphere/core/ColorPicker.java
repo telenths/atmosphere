@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
+import com.elvin.atmosphere.common.Statistic;
+
 public class ColorPicker {
 
     private static Robot robot;
@@ -30,8 +32,14 @@ public class ColorPicker {
     }
 
     public static Color pickColor(Rectangle rec) {
+
+        long start = System.currentTimeMillis();
         BufferedImage image = robot.createScreenCapture(rec);
+        Statistic.calcAvg("PickColor_" + rec.x + "_" + rec.y, System.currentTimeMillis() - start);
+        
+        start = System.currentTimeMillis();
         Color color = getAverageColor1(image);
+        Statistic.calcAvg("CalcAvgColor" + rec.x + "_" + rec.y, System.currentTimeMillis() - start);
         
         return color;
     }
