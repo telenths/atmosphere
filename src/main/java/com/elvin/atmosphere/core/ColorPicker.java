@@ -5,10 +5,6 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class ColorPicker {
 
@@ -22,7 +18,6 @@ public class ColorPicker {
         }
     }
     
-    
     public static void main(String[] args) throws InterruptedException {
         Thread.sleep(2000L);
         Color colour = ColorPicker.pickColor(55, 30, 5);
@@ -35,20 +30,11 @@ public class ColorPicker {
     }
 
     public static Color pickColor(Rectangle rec) {
-        
         BufferedImage image = robot.createScreenCapture(rec);
-//        try {
-//            long t = System.currentTimeMillis();
-//            ImageIO.write(image, "jpeg", new File("a"+ t +".jpeg"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         Color color = getAverageColor1(image);
         
         return color;
     }
-
 
     private static Color getAverageColor1(BufferedImage image) {
         int height = image.getHeight();
