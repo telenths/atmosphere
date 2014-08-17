@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import com.elvin.atmosphere.clients.PiColorUtil;
 import com.elvin.atmosphere.clients.RaspberryClient;
+import com.elvin.atmosphere.common.Statistic;
 import com.elvin.atmosphere.common.Utils;
 import com.elvin.atmosphere.core.BorderColor;
 
@@ -77,7 +78,9 @@ public class MainFrame extends AbstractMainFrame {
                 System.out.println(piColorString == null ? "" : piColorString.length());
 
                 if(piColorString != null){
+                    long start = System.currentTimeMillis();
                     raspClient.sendToRpi(piColorString);
+                    Statistic.calcAvg("SendToPi", System.currentTimeMillis() - start);
                 }
                 
             }

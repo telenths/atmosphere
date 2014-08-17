@@ -3,6 +3,7 @@ package com.elvin.atmosphere.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.elvin.atmosphere.common.Statistic;
 import com.elvin.atmosphere.core.Atmosphere;
 import com.elvin.atmosphere.core.BorderColor;
 
@@ -18,8 +19,10 @@ public class WorkingThread extends Atmosphere implements Runnable {
     
     public void run() {
         while(run){
-            
+            long start = System.currentTimeMillis();
             BorderColor borderColor = getColors();
+            Statistic.calcAvg("GetColors", System.currentTimeMillis() - start);
+            
             for(BorderColorRetrievedListener l : listener){
                 l.BorderColorRetrieved(borderColor);
             }

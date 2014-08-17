@@ -18,6 +18,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import com.elvin.atmosphere.common.Statistic;
 import com.elvin.atmosphere.common.Utils;
 
 public abstract class AbstractMainFrame extends JFrame {
@@ -162,6 +163,7 @@ public abstract class AbstractMainFrame extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 saveSettings();
+                Statistic.report();
                 System.exit(0);
             }
         });
