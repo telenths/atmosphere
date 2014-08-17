@@ -16,11 +16,13 @@ public class RaspberryClient {
     }
     
     public void sendToRpi(String data){
-        output.println(data + "\n");
+        output.println(data + "\n\r");
         output.flush();
     }
     
     public void close() throws Exception{
+        output.println("LEDOFF" + "\n\r");
+        output.flush();
         socket.close();
     }
 

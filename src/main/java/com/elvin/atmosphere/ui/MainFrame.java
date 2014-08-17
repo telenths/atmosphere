@@ -45,6 +45,8 @@ public class MainFrame extends AbstractMainFrame {
         }
 
         raspClient = new RaspberryClient();
+        raspClient.setHost(targetIp.getText());
+        raspClient.setPort(Integer.parseInt(targetPort.getText()));
         try {
             raspClient.connect();
         } catch (Exception e1) {
