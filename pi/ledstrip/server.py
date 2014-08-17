@@ -7,10 +7,18 @@ from raspledstrip.ledstrip import *
 from time import sleep
 
 led = LEDStrip(18 * 2 + 32)
-led.fillRGB(128, 128, 128)
+led.setChannelOrder(ChannelOrder.BRG)
+
+led.fillRGB(255, 0, 0)
 led.update()
 led.update()
 sleep(1)
+#led.fillRGB(0, 255, 0)
+#led.update()
+#sleep(1)
+#led.fillRGB(0, 0, 255)
+#led.update()
+#sleep(1)
 led.all_off()
 
 HOST = ''       # Symbolic name, meaning all available interfaces
@@ -30,28 +38,35 @@ except socket.error as msg:
 print 'Socket bind complete'
 
 #Start listening on socket
-s.listen(10)
+s.listen(1)
 print 'Socket now listening'
 
 while 1:
     conn, addr = s.accept()
-    print 'Connected with ' + addr[0] + ':' + str(addr[1])
+#    print 'Connected with ' + addr[0] + ':' + str(addr[1])
     while 1:
-       recv = conn.recv(BUFFER)
-       print('Client Send: %s' % recv )
-       if not recv:
-           conn.close()
-           break
-       if recv.startswith('LED '):
-           str = recv.split()
-           r = int(str[1])
-           g = int(str[2])
-           b = int(str[3])
-           i = int(str[4])
-           led.fillRGB(r,g,b,i,i)
-           led.update()
-       if recv.startswith('LEDOFF'):
-           led.all_off()
-
+        try:
+           recv = conn.recv(BUFFER)
+           print('Client Send: %s' % recv )
+           if not recv:
+               conn.close()
+               break
+           if recv.startswith('LED '):
+               strLedColors = recv.strip().lstrip('LED ').rstrip(',')
+    #           print strLedColors
+               ledColors = strLedColors.split(',')
+               for strPixcel in ledColors:
+                    str = strPixcel.strip().split()
+    #                print str
+                    r = int(str[0])
+                    g = int(str[1])
+                    b = int(str[2])
+                    i = int(str[3])
+                    led.fillRGB(r,g,b,i,i)
+               led.update()
+           if recv.startswith('LEDOFF'):
+               led.all_off()
+        except:
+            break
 
 s.close()
