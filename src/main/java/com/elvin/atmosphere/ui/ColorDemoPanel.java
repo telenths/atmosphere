@@ -41,12 +41,12 @@ public class ColorDemoPanel extends JPanel {
         }
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                PaintNewComp(borderColor);
+                paintNewComp(borderColor);
             }
         });
     }
     
-    private void PaintNewComp(BorderColor borderColor){
+    private void paintNewComp(BorderColor borderColor){
         top.setBorderColor(borderColor.getTop());
         bottom.setBorderColor(borderColor.getBottom());
         left.setBorderColor(borderColor.getLeft());
@@ -59,6 +59,8 @@ public class ColorDemoPanel extends JPanel {
 class ColorPanel extends JPanel {
     
     public void setBorderColor(List<Color> colors){
+        if(colors == null)
+            return;
         if(colors.size() != this.getComponentCount()){
             this.removeAll();
             for(Color c : colors){
@@ -88,4 +90,5 @@ class ColorPanelH extends ColorPanel{
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     }
 }
+
 

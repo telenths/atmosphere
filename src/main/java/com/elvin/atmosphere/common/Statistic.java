@@ -12,7 +12,7 @@ public class Statistic {
         if(avg == null){
             avg = time;
         }
-        avg = avg + time / 2.0f;
+        avg = (avg + time) / 2.0f;
         mapName2Avg.put(name, avg);
     }
     

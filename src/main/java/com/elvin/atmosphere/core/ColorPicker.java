@@ -1,50 +1,15 @@
 package com.elvin.atmosphere.core;
 
-import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.image.BufferedImage;
-
-import com.elvin.atmosphere.common.Statistic;
 
 public class ColorPicker {
 
-    private static Robot robot;
-
-    static {
-        try {
-            robot = new Robot();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
-    }
-    
     public static void main(String[] args) throws InterruptedException {
         Thread.sleep(2000L);
-        Color colour = ColorPicker.pickColor(55, 30, 5);
-        System.out.println(colour);
     }
     
-    public static Color pickColor(int x, int y, int delta) {
-        Rectangle rec = new Rectangle(x - delta, y - delta, delta * 2, delta * 2);
-        return pickColor(rec);
-    }
-
-    public static Color pickColor(Rectangle rec) {
-
-        long start = System.currentTimeMillis();
-        BufferedImage image = robot.createScreenCapture(rec);
-        Statistic.calcAvg("PickColor_" + rec.x + "_" + rec.y, System.currentTimeMillis() - start);
-        
-        start = System.currentTimeMillis();
-        Color color = getAverageColor1(image);
-        Statistic.calcAvg("CalcAvgColor" + rec.x + "_" + rec.y, System.currentTimeMillis() - start);
-        
-        return color;
-    }
-
-    private static Color getAverageColor1(BufferedImage image) {
+    public static Color getAverageColor(BufferedImage image) {
         int height = image.getHeight();
         int width = image.getWidth();
         

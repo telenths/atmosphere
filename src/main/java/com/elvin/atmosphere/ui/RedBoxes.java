@@ -36,17 +36,17 @@ public class RedBoxes {
             right = new RedBoxFrame();
         }
         
-        top.setLocation(atmosphere.getTopDimension().getOriginRectangle().x, atmosphere.getTopDimension().getOriginRectangle().y);
-        top.setSize(atmosphere.getTopDimension().getOriginRectangle().width, atmosphere.getTopDimension().getOriginRectangle().height);
+        top.setLocation(atmosphere.getTopDimension().getDimensionRectangle().x, atmosphere.getTopDimension().getDimensionRectangle().y);
+        top.setSize(atmosphere.getTopDimension().getDimensionRectangle().width, atmosphere.getTopDimension().getDimensionRectangle().height);
 
-        bottom.setLocation(atmosphere.getBottomDimension().getOriginRectangle().x, atmosphere.getBottomDimension().getOriginRectangle().y);
-        bottom.setSize(atmosphere.getBottomDimension().getOriginRectangle().width, atmosphere.getBottomDimension().getOriginRectangle().height);
+        bottom.setLocation(atmosphere.getBottomDimension().getDimensionRectangle().x, atmosphere.getBottomDimension().getDimensionRectangle().y);
+        bottom.setSize(atmosphere.getBottomDimension().getDimensionRectangle().width, atmosphere.getBottomDimension().getDimensionRectangle().height);
         
-        left.setLocation(atmosphere.getLeftDimension().getOriginRectangle().x, atmosphere.getLeftDimension().getOriginRectangle().y);
-        left.setSize(atmosphere.getLeftDimension().getOriginRectangle().width, atmosphere.getLeftDimension().getOriginRectangle().height);
+        left.setLocation(atmosphere.getLeftDimension().getDimensionRectangle().x, atmosphere.getLeftDimension().getDimensionRectangle().y);
+        left.setSize(atmosphere.getLeftDimension().getDimensionRectangle().width, atmosphere.getLeftDimension().getDimensionRectangle().height);
         
-        right.setLocation(atmosphere.getRightDimension().getOriginRectangle().x, atmosphere.getRightDimension().getOriginRectangle().y);
-        right.setSize(atmosphere.getRightDimension().getOriginRectangle().width, atmosphere.getRightDimension().getOriginRectangle().height);
+        right.setLocation(atmosphere.getRightDimension().getDimensionRectangle().x, atmosphere.getRightDimension().getDimensionRectangle().y);
+        right.setSize(atmosphere.getRightDimension().getDimensionRectangle().width, atmosphere.getRightDimension().getDimensionRectangle().height);
         
         top.setVisible(true);
         bottom.setVisible(true);

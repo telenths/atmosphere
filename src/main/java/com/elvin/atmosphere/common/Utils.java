@@ -1,18 +1,39 @@
 package com.elvin.atmosphere.common;
 
+import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+
+    private static Robot robot;
+    
+    static {
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static Dimension getScreenDimension(){
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         return  screenSize;
     }
     
+    public static BufferedImage captureScreen(Rectangle rec) {
+
+        long start = System.currentTimeMillis();
+        BufferedImage image = robot.createScreenCapture(rec);
+        Statistic.calcAvg("CaptureScreen_" + rec.width + "_" + rec.height, System.currentTimeMillis() - start);
+        
+        return image;
+    }
     
     public static List<Rectangle> splitV(Rectangle rec, int n) {
         List<Rectangle> resultList = new ArrayList<Rectangle>();

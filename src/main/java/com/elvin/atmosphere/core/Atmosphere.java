@@ -15,6 +15,8 @@ public class Atmosphere {
     private BorderDimension bottomDimension;
     private BorderDimension leftDimension ;
     private BorderDimension rightDimension ;
+
+    private BorderColor borderColor = new BorderColor();
     
     /**
      * =====================
@@ -58,9 +60,8 @@ public class Atmosphere {
     
     public BorderColor getColors(){
 
-        BorderColor borderColor = new BorderColor();
         borderColor.setTop(topDimension.getColors());
-        borderColor.setBottom(bottomDimension.getColors());
+//        borderColor.setBottom(bottomDimension.getColors());
         borderColor.setLeft(leftDimension.getColors());
         borderColor.setRight(rightDimension.getColors());
         

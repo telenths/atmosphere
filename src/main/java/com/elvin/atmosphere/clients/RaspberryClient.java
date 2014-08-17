@@ -16,6 +16,8 @@ public class RaspberryClient {
     }
     
     public void sendToRpi(String data){
+        if(data == null)
+            return;
         output.println(data + "\n\r");
         output.flush();
     }

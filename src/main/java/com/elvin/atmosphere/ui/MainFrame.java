@@ -75,7 +75,7 @@ public class MainFrame extends AbstractMainFrame {
                 //send to raspberry pi
 
                 String piColorString = PiColorUtil.getPiColorString(borderColor);
-                System.out.println(piColorString == null ? "" : piColorString.length());
+//                System.out.println(piColorString == null ? "" : piColorString.length());
 
                 if(piColorString != null){
                     long start = System.currentTimeMillis();

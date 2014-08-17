@@ -2,6 +2,7 @@ package com.elvin.atmosphere.core;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,36 +19,20 @@ public class BorderDimension {
     private int splitH = -1;
     private int splitV = -1;
     
-    private Rectangle originRectangle;
-    private List<Rectangle> splitedRectangles;
+    private Rectangle dimensionRectangle;
     
-    public BorderDimension(Rectangle originRectangle){
-        this.originRectangle = originRectangle;
-        this.originalX = originRectangle.x;
-        this.originalY = originRectangle.y;
-    }
-    
-    private void split(){
-        if(originRectangle == null){
-            return;
-        }
-
-        if(splitH >= 0 ){
-            splitedRectangles = Utils.splitH(originRectangle, splitH);
-        }
-        
-        if(splitV >= 0){
-            splitedRectangles = Utils.splitV(originRectangle, splitV);
-        }
+    public BorderDimension(Rectangle dimensionRectangle){
+        this.dimensionRectangle = dimensionRectangle;
+        this.originalX = dimensionRectangle.x;
+        this.originalY = dimensionRectangle.y;
     }
     
     private void adjust(){
-        if(originRectangle == null){
+        if(dimensionRectangle == null){
             return;
         }
 
-        originRectangle.setLocation(originalX + adjustX, originalY + adjustY);
-        split();
+        dimensionRectangle.setLocation(originalX + adjustX, originalY + adjustY);
     }
     
     public void setAdjustX(int adjustX) {
@@ -63,23 +48,53 @@ public class BorderDimension {
     public void setSplitH(int splitH) {
         this.splitH = splitH;
         this.splitV = -1;
-        split();
     }
     public void setSplitV(int splitV) {
         this.splitV = splitV;
         this.splitH = -1;
-        split();
     }
     public List<Color> getColors() {
+
+        BufferedImage wholeImage = Utils.captureScreen(dimensionRectangle);
         List<Color> colors = new ArrayList<Color>();
-        for (Rectangle rec : splitedRectangles) {
-            colors.add(ColorPicker.pickColor(rec));
+        
+        if(splitH == 0 || splitV == 0){
+            colors.add(ColorPicker.getAverageColor(wholeImage));
+            return colors;
         }
+        
+        if( splitH >= 0 ){
+            int width = dimensionRectangle.width / splitH;
+            int height = dimensionRectangle.height;
+            
+            for (int i = 0 ; i < splitH; i++) {
+                if(width * i + width > wholeImage.getWidth())
+                    continue;
+                BufferedImage splitImg = wholeImage.getSubimage(width * i, 0, width, height); 
+                colors.add(ColorPicker.getAverageColor(splitImg));
+            }
+            return colors;
+        }
+        
+        if( splitV >= 0 ){
+            int width = dimensionRectangle.width;
+            int height = dimensionRectangle.height / splitV;
+            
+            for (int i = 0 ; i < splitV; i++) {
+                if(height * i + height > wholeImage.getHeight())
+                    continue;
+                BufferedImage splitImg = wholeImage.getSubimage(0, height * i, width, height); 
+                colors.add(ColorPicker.getAverageColor(splitImg));
+            }
+            return colors;
+        }
+        
+        colors.add(ColorPicker.getAverageColor(wholeImage));
         return colors;
     }
 
-    public Rectangle getOriginRectangle() {
-        return originRectangle;
+    public Rectangle getDimensionRectangle() {
+        return dimensionRectangle;
     }
     
 }
