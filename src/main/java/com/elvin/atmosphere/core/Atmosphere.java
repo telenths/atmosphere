@@ -24,8 +24,6 @@ public class Atmosphere {
      * |...................|
      * =====================
      * 
-     * @throws AWTException
-     * 
      */
     public void init(int vHeight, int hWidth, int tbSplit, int lrSplit, int topAdjust, int bottomAdjust, int leftAdjust, int rightAdjust) {
 

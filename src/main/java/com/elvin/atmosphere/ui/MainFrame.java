@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.elvin.atmosphere.clients.PiColorUtil;
+import com.elvin.atmosphere.clients.RaspberryClient;
 import com.elvin.atmosphere.common.Utils;
 import com.elvin.atmosphere.core.BorderColor;
 
@@ -16,6 +18,7 @@ public class MainFrame extends AbstractMainFrame {
 
     private WorkingThread workingThread;
     private String propertyFile = "atmosphere.prop";
+    private RaspberryClient raspClient;
     
     public static void main(String[] args) {
         AbstractMainFrame mf = new MainFrame();
@@ -33,9 +36,21 @@ public class MainFrame extends AbstractMainFrame {
         this.onOffButton.setText( this.onOffButton.isSelected() ? "ON" : "OFF");
         if(!onOffButton.isSelected() && workingThread != null){
             workingThread.stop();
+            try {
+                raspClient.close();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
             return;
         }
 
+        raspClient = new RaspberryClient();
+        try {
+            raspClient.connect();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        
         int vHeight = tbHeight.getValue();
         int hWidth = lrWidth.getValue();
         int tbCut = tbSplit.getValue();
@@ -55,6 +70,12 @@ public class MainFrame extends AbstractMainFrame {
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             public void BorderColorRetrieved(BorderColor borderColor) {
                 //send to raspberry pi
+
+                String piColorString = PiColorUtil.getPiColorString(borderColor);
+                System.out.println(piColorString);
+                System.out.println(piColorString == null ? "" : piColorString.length());
+                raspClient.sendToRpi(piColorString);
+                
             }
         });
         workingThread.setInterval(interval.getValue());
