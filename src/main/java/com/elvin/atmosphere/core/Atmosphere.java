@@ -34,8 +34,8 @@ public class Atmosphere {
         topDimension.setSplitH(tbSplit);
         topDimension.setAdjustY(topAdjust);
         
-//        bottomDimension.setSplitH(tbSplit);
-//        bottomDimension.setAdjustY(-bottomAdjust);
+        bottomDimension.setSplitH(tbSplit);
+        bottomDimension.setAdjustY(-bottomAdjust);
         
         leftDimension.setSplitV(lrSplit);
         leftDimension.setAdjustX(leftAdjust);
@@ -76,6 +76,7 @@ public class Atmosphere {
     }
     public void setTopAdjust(int adjust){
         topDimension.setAdjustY(adjust);
+        leftDimension.setAdjustH(-adjust);
     }
     public void setBottomAdjust(int adjust){
         bottomDimension.setAdjustY(-adjust);

@@ -29,7 +29,7 @@ public class BorderDimension {
         if(dimensionRectangle == null){
             return;
         }
-        dimensionRectangle.setSize(originalH + adjustH, originalW + adjustW);
+        dimensionRectangle.setSize(originalW + adjustW, originalH + adjustH);
         dimensionRectangle.setLocation(originalX + adjustX, originalY + adjustY);
     }
     
@@ -46,11 +46,13 @@ public class BorderDimension {
     public void setAdjustH(int adjustH) {
         this.adjustH = adjustH;
         adjust();
+        dimensionRectangle.setLocation(dimensionRectangle.x, dimensionRectangle.y - adjustH / 2);
     }
 
     public void setAdjustW(int adjustW) {
         this.adjustW = adjustW;
         adjust();
+        dimensionRectangle.setLocation(dimensionRectangle.x - adjustW / 2, dimensionRectangle.y);
     }
 
     public void setSplitH(int splitH) {
@@ -107,6 +109,8 @@ public class BorderDimension {
         this.dimensionRectangle = dimensionRectangle;
         this.originalX = dimensionRectangle.x;
         this.originalY = dimensionRectangle.y;
+        this.originalW = dimensionRectangle.width;
+        this.originalH = dimensionRectangle.height;
         adjust();
     }
     public Rectangle getDimensionRectangle() {
