@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -158,6 +157,7 @@ public abstract class AbstractMainFrame extends JFrame {
         this.getContentPane().add(top, BorderLayout.NORTH);
         this.getContentPane().add(bottom, BorderLayout.SOUTH);
         this.getContentPane().add(colorDemoPanel, BorderLayout.CENTER);
+        
         this.pack();
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {

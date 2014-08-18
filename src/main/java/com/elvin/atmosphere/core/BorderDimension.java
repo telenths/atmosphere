@@ -12,26 +12,24 @@ public class BorderDimension {
     
     private int originalX;
     private int originalY;
+    private int originalH;
+    private int originalW;
     
     private int adjustX;
     private int adjustY;
+    private int adjustH;
+    private int adjustW;
     
     private int splitH = -1;
     private int splitV = -1;
     
     private Rectangle dimensionRectangle;
     
-    public BorderDimension(Rectangle dimensionRectangle){
-        this.dimensionRectangle = dimensionRectangle;
-        this.originalX = dimensionRectangle.x;
-        this.originalY = dimensionRectangle.y;
-    }
-    
     private void adjust(){
         if(dimensionRectangle == null){
             return;
         }
-
+        dimensionRectangle.setSize(originalH + adjustH, originalW + adjustW);
         dimensionRectangle.setLocation(originalX + adjustX, originalY + adjustY);
     }
     
@@ -45,14 +43,26 @@ public class BorderDimension {
         adjust();
     }
 
+    public void setAdjustH(int adjustH) {
+        this.adjustH = adjustH;
+        adjust();
+    }
+
+    public void setAdjustW(int adjustW) {
+        this.adjustW = adjustW;
+        adjust();
+    }
+
     public void setSplitH(int splitH) {
         this.splitH = splitH;
         this.splitV = -1;
     }
+    
     public void setSplitV(int splitV) {
         this.splitV = splitV;
         this.splitH = -1;
     }
+    
     public List<Color> getColors() {
 
         BufferedImage wholeImage = Utils.captureScreen(dimensionRectangle);
@@ -93,6 +103,12 @@ public class BorderDimension {
         return colors;
     }
 
+    public void setDimensionRectangle(Rectangle dimensionRectangle) {
+        this.dimensionRectangle = dimensionRectangle;
+        this.originalX = dimensionRectangle.x;
+        this.originalY = dimensionRectangle.y;
+        adjust();
+    }
     public Rectangle getDimensionRectangle() {
         return dimensionRectangle;
     }

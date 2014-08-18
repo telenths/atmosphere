@@ -28,7 +28,6 @@ public class SliderTextPanel extends JPanel {
         slider.setMinimumSize(new Dimension(200, 20));
         slider.setValue(defaultValue);
         
-        
         text.setPreferredSize(new Dimension(40, 20));
         text.setMaximumSize(new Dimension(40, 20));
         text.setText(defaultValue + "");

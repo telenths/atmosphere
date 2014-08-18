@@ -11,10 +11,10 @@ import com.elvin.atmosphere.common.Utils;
 
 public class Atmosphere {
 
-    private BorderDimension topDimension ;
-    private BorderDimension bottomDimension;
-    private BorderDimension leftDimension ;
-    private BorderDimension rightDimension ;
+    private BorderDimension topDimension = new BorderDimension();
+    private BorderDimension bottomDimension = new BorderDimension();
+    private BorderDimension leftDimension = new BorderDimension();
+    private BorderDimension rightDimension = new BorderDimension();
 
     private BorderColor borderColor = new BorderColor();
     
@@ -34,8 +34,8 @@ public class Atmosphere {
         topDimension.setSplitH(tbSplit);
         topDimension.setAdjustY(topAdjust);
         
-        bottomDimension.setSplitH(tbSplit);
-        bottomDimension.setAdjustY(-bottomAdjust);
+//        bottomDimension.setSplitH(tbSplit);
+//        bottomDimension.setAdjustY(-bottomAdjust);
         
         leftDimension.setSplitV(lrSplit);
         leftDimension.setAdjustX(leftAdjust);
@@ -52,19 +52,17 @@ public class Atmosphere {
         Rectangle left = new Rectangle( 0,                         height,  width, screenSize.height - 2 *  height);
         Rectangle right = new Rectangle(screenSize.width - width,  height,  width, screenSize.height - 2 *  height);
 
-        topDimension = new BorderDimension(top);
-        bottomDimension = new BorderDimension(botom);
-        leftDimension = new BorderDimension(left);
-        rightDimension = new BorderDimension(right);
+        topDimension.setDimensionRectangle(top);
+        bottomDimension.setDimensionRectangle(botom);
+        leftDimension.setDimensionRectangle(left);
+        rightDimension.setDimensionRectangle(right);
     }
     
     public BorderColor getColors(){
-
         borderColor.setTop(topDimension.getColors());
-//        borderColor.setBottom(bottomDimension.getColors());
+        borderColor.setBottom(bottomDimension.getColors());
         borderColor.setLeft(leftDimension.getColors());
         borderColor.setRight(rightDimension.getColors());
-        
         return borderColor;
     }
 
@@ -76,7 +74,6 @@ public class Atmosphere {
         leftDimension.setSplitV(split);
         rightDimension.setSplitV(split);
     }
-    
     public void setTopAdjust(int adjust){
         topDimension.setAdjustY(adjust);
     }
@@ -89,19 +86,15 @@ public class Atmosphere {
     public void setRightAdjust(int adjust){
         rightDimension.setAdjustX(-adjust);
     }
-
     public BorderDimension getTopDimension() {
         return topDimension;
     }
-
     public BorderDimension getBottomDimension() {
         return bottomDimension;
     }
-
     public BorderDimension getLeftDimension() {
         return leftDimension;
     }
-
     public BorderDimension getRightDimension() {
         return rightDimension;
     }

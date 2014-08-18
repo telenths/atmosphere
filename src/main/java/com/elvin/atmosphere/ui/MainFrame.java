@@ -53,17 +53,10 @@ public class MainFrame extends AbstractMainFrame {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        
-        int vHeight = tbHeight.getValue();
-        int hWidth = lrWidth.getValue();
-        int tbCut = tbSplit.getValue();
-        int lrCut = lrSplit.getValue();
-        int topAdjust = tAdjust.getValue();
-        int bottomAdjust = bAdjust.getValue();
-        int leftAdjust = lAdjust.getValue();
-        int rightAdjust = rAdjust.getValue();
-        
-        workingThread = new WorkingThread(vHeight, hWidth, tbCut, lrCut, topAdjust, bottomAdjust, leftAdjust, rightAdjust);
+
+        if(workingThread == null){
+            workingThread = initWorkingThread();
+        }
         
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             public void BorderColorRetrieved(BorderColor borderColor) {
@@ -89,10 +82,24 @@ public class MainFrame extends AbstractMainFrame {
         new Thread(workingThread).start();
     }
 
+    private WorkingThread initWorkingThread() {
+        int vHeight = tbHeight.getValue();
+        int hWidth = lrWidth.getValue();
+        int tbCut = tbSplit.getValue();
+        int lrCut = lrSplit.getValue();
+        int topAdjust = tAdjust.getValue();
+        int bottomAdjust = bAdjust.getValue();
+        int leftAdjust = lAdjust.getValue();
+        int rightAdjust = rAdjust.getValue();
+        
+        WorkingThread workingThread = new WorkingThread(vHeight, hWidth, tbCut, lrCut, topAdjust, bottomAdjust, leftAdjust, rightAdjust);
+        return workingThread;
+    }
+
     @Override
     protected void redBoxButtonPressed(MouseEvent e) {
         if(workingThread == null){
-            return;
+            workingThread = initWorkingThread();
         }
         RedBoxes.getInstance().showWith(workingThread);
     }
