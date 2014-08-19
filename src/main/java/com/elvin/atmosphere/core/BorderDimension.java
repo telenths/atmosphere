@@ -43,10 +43,11 @@ public class BorderDimension {
         adjust();
     }
 
-    public void setAdjustH(int adjustH) {
+    public void setAdjustH(int adjustH, boolean fromTop) {
         this.adjustH = adjustH;
         adjust();
-        dimensionRectangle.setLocation(dimensionRectangle.x, dimensionRectangle.y - adjustH / 2);
+        if(fromTop)
+            dimensionRectangle.setLocation(dimensionRectangle.x, dimensionRectangle.y - adjustH);
     }
 
     public void setAdjustW(int adjustW) {

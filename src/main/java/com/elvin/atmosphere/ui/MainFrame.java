@@ -137,7 +137,6 @@ public class MainFrame extends AbstractMainFrame {
     protected void tAdjustSliderValueChanged(int value) {
         if(workingThread != null)
             workingThread.setTopAdjust(value);
-        
     }
 
     @Override
@@ -150,7 +149,6 @@ public class MainFrame extends AbstractMainFrame {
     protected void tbSplitSliderValueChanged(int value) {
         if(workingThread != null)
             workingThread.setTbSplit(value);
-        
     }
 
     @Override

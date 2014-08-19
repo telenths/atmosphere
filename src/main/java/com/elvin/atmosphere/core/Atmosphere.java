@@ -76,10 +76,13 @@ public class Atmosphere {
     }
     public void setTopAdjust(int adjust){
         topDimension.setAdjustY(adjust);
-        leftDimension.setAdjustH(-adjust);
+        leftDimension.setAdjustH(-adjust, true);
+        rightDimension.setAdjustH(-adjust, true);
     }
     public void setBottomAdjust(int adjust){
         bottomDimension.setAdjustY(-adjust);
+//        leftDimension.setAdjustH(-adjust, false);
+//        rightDimension.setAdjustH(-adjust, false);
     }
     public void setLeftAdjust(int adjust){
         leftDimension.setAdjustX(adjust);
