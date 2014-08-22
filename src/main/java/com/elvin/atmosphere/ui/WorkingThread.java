@@ -27,11 +27,13 @@ public class WorkingThread extends Atmosphere implements Runnable {
                 l.BorderColorRetrieved(borderColor);
             }
             try {
-                Thread.sleep(interval);
+                if(interval > 0)
+                    Thread.sleep(interval);
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             
-            System.out.println(Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory());
+//            System.out.println(Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory());
             
         }
     }

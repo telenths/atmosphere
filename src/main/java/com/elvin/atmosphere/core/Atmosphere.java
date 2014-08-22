@@ -60,7 +60,7 @@ public class Atmosphere {
     
     public BorderColor getColors(){
         borderColor.setTop(topDimension.getColors());
-        borderColor.setBottom(bottomDimension.getColors());
+//        borderColor.setBottom(bottomDimension.getColors());
         borderColor.setLeft(leftDimension.getColors());
         borderColor.setRight(rightDimension.getColors());
         return borderColor;
