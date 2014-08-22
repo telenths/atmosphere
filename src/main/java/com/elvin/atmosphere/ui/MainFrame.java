@@ -46,7 +46,8 @@ public class MainFrame extends AbstractMainFrame {
         }
 
         raspClient = new RaspberryClient();
-        raspClient.setHost(targetIp.getText());
+        if(targetIp.getText() != null && targetIp.getText().trim().length() > 0)
+            raspClient.setHost(targetIp.getText());
         raspClient.setPort(Integer.parseInt(targetPort.getText()));
         try {
             raspClient.connect();
@@ -54,9 +55,7 @@ public class MainFrame extends AbstractMainFrame {
             e1.printStackTrace();
         }
 
-        if(workingThread == null){
-            workingThread = initWorkingThread();
-        }
+        workingThread = initWorkingThread();
         
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             public void BorderColorRetrieved(BorderColor borderColor) {
@@ -65,17 +64,13 @@ public class MainFrame extends AbstractMainFrame {
         });
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             public void BorderColorRetrieved(BorderColor borderColor) {
-                //send to raspberry pi
-
                 String piColorString = PiColorUtil.getPiColorString(borderColor);
-//                System.out.println(piColorString == null ? "" : piColorString.length());
 
                 if(piColorString != null){
                     long start = System.currentTimeMillis();
                     raspClient.sendToRpi(piColorString);
                     Statistic.calcAvg("SendToPi", System.currentTimeMillis() - start);
                 }
-                
             }
         });
         workingThread.setInterval(interval.getValue());

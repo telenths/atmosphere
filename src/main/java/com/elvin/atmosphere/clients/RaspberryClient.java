@@ -5,12 +5,14 @@ import java.net.Socket;
 
 public class RaspberryClient {
 
-    private String host = "192.168.11.99";
-    private int port = 8888;
+    private String host;
+    private int port;
     private PrintWriter output = null;
     private Socket socket;
     
     public void connect() throws Exception{
+        if(host == null)
+            return;
         socket = new Socket(host, port);
         output = new PrintWriter(socket.getOutputStream());
     }
@@ -18,11 +20,17 @@ public class RaspberryClient {
     public void sendToRpi(String data){
         if(data == null)
             return;
+        if(output == null)
+            return;
         output.println(data + "\n\r");
         output.flush();
     }
     
     public void close() throws Exception{
+        if(output == null)
+            return;
+        if(socket.isClosed())
+            return;
         output.println("LEDOFF" + "\n\r");
         output.flush();
         socket.close();

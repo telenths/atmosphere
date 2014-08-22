@@ -30,6 +30,9 @@ public class WorkingThread extends Atmosphere implements Runnable {
                 Thread.sleep(interval);
             } catch (InterruptedException e) {
             }
+            
+            System.out.println(Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory());
+            
         }
     }
 
