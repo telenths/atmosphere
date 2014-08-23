@@ -1,5 +1,5 @@
 
-if [ $1 = 'all' ]; then
+if [ $1 = "all" ]; then
 
   git pull
   mvn clean package
