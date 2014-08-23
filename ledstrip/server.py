@@ -8,7 +8,7 @@ from time import sleep
 
 led = LEDStrip(18 * 2 + 32)
 led.setChannelOrder(ChannelOrder.BRG)
-led.setMasterBrightness(0.9)
+#led.setMasterBrightness(0.9)
 
 led.fillRGB(255, 0, 0)
 led.update()
