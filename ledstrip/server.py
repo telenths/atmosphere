@@ -10,9 +10,14 @@ led = LEDStrip(18 * 2 + 32)
 led.setChannelOrder(ChannelOrder.BRG)
 #led.setMasterBrightness(0.9)
 
-led.fillRGB(255, 0, 0)
-led.update()
-led.update()
+for i in range (0, 255):
+  led.fillHue(i)
+  led.update()
+  sleep(1)
+
+#led.fillRGB(255, 0, 0)
+#led.update()
+#led.update()
 sleep(1)
 #led.fillRGB(0, 255, 0)
 #led.update()
@@ -48,7 +53,7 @@ while 1:
     while 1:
         try:
            recv = conn.recv(BUFFER)
-           print('Client Send: %s' % recv )
+#           print('Client Send: %s' % recv )
            if not recv:
                conn.close()
                break
