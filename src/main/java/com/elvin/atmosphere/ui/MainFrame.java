@@ -64,12 +64,15 @@ public class MainFrame extends AbstractMainFrame {
         });
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             public void BorderColorRetrieved(BorderColor borderColor) {
+
+                Statistic.start("GetPiColorString");
                 String piColorString = PiColorUtil.getPiColorString(borderColor);
+                Statistic.end("GetPiColorString");
 
                 if(piColorString != null){
-                    long start = System.currentTimeMillis();
+                    Statistic.start("SendToPi");
                     raspClient.sendToRpi(piColorString);
-                    Statistic.calcAvg("SendToPi", System.currentTimeMillis() - start);
+                    Statistic.end("SendToPi");
                 }
             }
         });
