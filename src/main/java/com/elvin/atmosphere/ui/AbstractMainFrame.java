@@ -164,6 +164,8 @@ public abstract class AbstractMainFrame extends JFrame {
             public void windowClosing(WindowEvent e) {
                 saveSettings();
                 Statistic.report();
+
+                System.out.println("Used Mem: "+ (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()));
                 System.exit(0);
             }
         });

@@ -10,14 +10,21 @@ public class RaspberryClient {
     private PrintWriter output = null;
     private Socket socket;
     
-    public void connect() throws Exception{
-        if(host == null)
+    public RaspberryClient(String host, int port) throws Exception {
+        super();
+        this.host = host;
+        this.port = port;
+        connect();
+    }
+
+    private void connect() throws Exception{
+        if(host == null || host.length() <= 0)
             return;
         socket = new Socket(host, port);
         output = new PrintWriter(socket.getOutputStream());
     }
     
-    public void sendToRpi(String data){
+    public void sendToRpi(final String data){
         if(data == null)
             return;
         if(output == null)

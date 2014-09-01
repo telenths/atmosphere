@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import com.elvin.atmosphere.clients.PiColorUtil;
 import com.elvin.atmosphere.clients.RaspberryClient;
+import com.elvin.atmosphere.common.AtLog;
 import com.elvin.atmosphere.common.Statistic;
 import com.elvin.atmosphere.common.Utils;
 import com.elvin.atmosphere.core.BorderColor;
@@ -30,6 +31,9 @@ public class MainFrame extends AbstractMainFrame {
         mf.setLocation(x, y);
         
         mf.setVisible(true);
+        
+        System.out.println("Used Mem: "+ (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()));
+        
     }
 
     @Override
@@ -45,14 +49,18 @@ public class MainFrame extends AbstractMainFrame {
             return;
         }
 
-        raspClient = new RaspberryClient();
-        if(targetIp.getText() != null && targetIp.getText().trim().length() > 0)
-            raspClient.setHost(targetIp.getText());
-        raspClient.setPort(Integer.parseInt(targetPort.getText()));
+        if(targetIp.getText() != null && targetIp.getText().trim().length() > 0){
+        }
         try {
-            raspClient.connect();
+            raspClient = new RaspberryClient(targetIp.getText(), Integer.parseInt(targetPort.getText()));
+        } catch (NumberFormatException e1) {
+            e1.printStackTrace();
         } catch (Exception e1) {
             e1.printStackTrace();
+        }
+        
+        if(raspClient == null){
+            return;
         }
 
         workingThread = initWorkingThread();
@@ -65,12 +73,11 @@ public class MainFrame extends AbstractMainFrame {
         workingThread.addBorderColorRetrievedListener(new BorderColorRetrievedListener() {
             public void BorderColorRetrieved(BorderColor borderColor) {
 
-                Statistic.start("GetPiColorString");
                 String piColorString = PiColorUtil.getPiColorString(borderColor);
-                Statistic.end("GetPiColorString");
 
                 if(piColorString != null){
                     Statistic.start("SendToPi");
+                    AtLog.logDots();
                     raspClient.sendToRpi(piColorString);
                     Statistic.end("SendToPi");
                 }
